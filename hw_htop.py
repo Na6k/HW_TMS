@@ -1,46 +1,86 @@
-from datetime import date
 import psutil
 
 
 def info_cpu():   
     res_cpu = {}
     date_t = psutil.cpu_times()
-    res_cpu.update(user_time=date_t.user, system_time=date_t.system, time_notdo=date_t.idle, nice_time=date_t.nice )    
+    res_cpu.update(
+                   user_time=date_t.user, 
+                   system_time=date_t.system,
+                   time_notdo=date_t.idle, 
+                   nice_time=date_t.nice
+                    )    
 
     date_s = psutil.cpu_stats()
-    res_cpu.update(sum_switch=date_s.ctx_switches, sum_iter=date_s.interrupts, sun_softiter=date_s.soft_interrupts, sum_call=date_s.syscalls)
+    res_cpu.update(
+                    sum_switch=date_s.ctx_switches,
+                    sum_iter=date_s.interrupts, 
+                    sun_softiter=date_s.soft_interrupts,
+                    sum_call=date_s.syscalls
+                    )
         
     date_per = psutil.cpu_percent(1, True)
-    res_cpu.update(use_cpu1=date_per[0], use_cpu2=date_per[1], use_cpu3=date_per[2], use_cpu4=date_per[3],
-                        use_cpu5=date_per[4], use_cpu6=date_per[5],use_cpu7=date_per[6], use_cpu8=date_per[7])
+    res_cpu.update(
+                    use_cpu1=date_per[0], use_cpu2=date_per[1],
+                    use_cpu3=date_per[2], use_cpu4=date_per[3],
+                    use_cpu5=date_per[4], use_cpu6=date_per[5],
+                    use_cpu7=date_per[6], use_cpu8=date_per[7]
+                    )
     return res_cpu
 
 def info_memmory():
     virtual_mem = {}
     date_mem = psutil.virtual_memory()
-    virtual_mem.update(total_memory=date_mem.total/1024**3, available_memory=date_mem.available/1024**3, used_memory=date_mem.used/1024**3)
+    virtual_mem.update(
+                        total_memory=date_mem.total/1024**3,
+                        available_memory=date_mem.available/1024**3,
+                        used_memory=date_mem.used/1024**3
+                        )
     return dict(virtual_mem)
 
 def info_disk():
     res_disk = {}
     date_disk = psutil.disk_usage('/')
-    res_disk.update(total_disk=float(date_disk.total/(1024**3)), used_disk=float(date_disk.used/(1024**3)), 
-                    free_disk=float(date_disk.free/(1024**3)), usedisk_percent=date_disk.percent)
+    res_disk.update(
+                    total_disk=float(date_disk.total/(1024**3)), 
+                    used_disk=float(date_disk.used/(1024**3)), 
+                    free_disk=float(date_disk.free/(1024**3)),
+                    usedisk_percent=date_disk.percent
+                    )
     return res_disk
 
 def info_baterry():
     res_battery = {}
     date_baterry = psutil.sensors_battery()
-    res_battery.update(low_percent=date_baterry.percent, critical_low=int(date_baterry.secsleft/60), on_chager=date_baterry.power_plugged)
+    res_battery.update(
+                        low_percent=date_baterry.percent,
+                        critical_low=int(date_baterry.secsleft/60),
+                        on_chager=date_baterry.power_plugged
+                        )
     return res_battery
 
 def info_network():
     res_network = {}
     date_network = psutil.net_io_counters()
-    res_network.update(send_bytes = date_network.bytes_sent, received_bytes = date_network.bytes_recv, error = date_network.errin)
+    res_network.update(
+                        send_bytes = date_network.bytes_sent,
+                        received_bytes = date_network.bytes_recv, 
+                        error = date_network.errin
+                        )
     return res_network    
 
-def show(cpu=None, memory=None, disk=None, baterry=None, network=None):
+def info_user():
+    res_user = {}
+    date_user = psutil.users()
+    res_user.update(
+                    user_name=date_user[0].name,
+                    type_cmd=date_user[0].terminal,
+                    star_time=date_user[0].started/60**2
+                    )
+    return res_user            
+
+
+def show(cpu=None, memory=None, disk=None, baterry=None, network=None, user=None):
     cputime_temp = '| {user_time:^10} | {system_time:^11} | {time_notdo:^10} | {nice_time:^9} |'
     cpustats_temp = '| {sum_switch:^10} | {sum_iter:^11} | {sun_softiter:^12} | {sum_call:^9} |'
     cpupercent_temp = '| {use_cpu1:^5} | {use_cpu2:^5} | {use_cpu3:^5} | {use_cpu4:^5} | {use_cpu5:^5} | {use_cpu6:^5} | {use_cpu7:^5} | {use_cpu8:^5} |'
@@ -48,6 +88,7 @@ def show(cpu=None, memory=None, disk=None, baterry=None, network=None):
     disk_templage = '| {total_disk:^15.3f} | {used_disk:^15.3f} | {free_disk:^15.3f} | {usedisk_percent:^10} |'
     baterry_temp = ' Your baterry charge: {low_percent}%\n Time to critical low(min): {critical_low}\n Charge from sets: {on_chager} '
     network_temp = '| {send_bytes:^10} | {received_bytes:^14} | {error:5} |'
+    user_temp = '| {user_name:^10} | {type_cmd:^10} | {star_time:^6.0f} min |'
 
     print('\n{:^53}'.format('<<Information about user time>>'))
     print('| {:^10} | {:^11} | {:^10} | {:^9} |'.format('user time', 'system time', 'nothing do', 'nice time'))
@@ -83,14 +124,27 @@ def show(cpu=None, memory=None, disk=None, baterry=None, network=None):
     print('| {} | {} | {} |'.format('send butes', 'received bytes', 'ERROR'))
     print(network_temp.format(**network), end='\n\n')
 
+    print('{:^40}'.format('<<Information about user>>'))
+    print('| {:^10} | {:^10} | {:^10} |'.format('user name', 'type cmd', 'start time'))
+    print(user_temp.format(**user))
+    print(len(user_temp.format(**user)) * '-', end='\n\n')
+
 def main():
     date_cpu = info_cpu()
     date_memory = info_memmory()
     date_disk = info_disk()
     date_baterry = info_baterry()
     date_network = info_network()
+    date_user = info_user()
     
-    show(cpu=date_cpu ,memory=date_memory, disk=date_disk, baterry=date_baterry, network=date_network)
+    show(
+        cpu=date_cpu,
+        memory=date_memory,
+        disk=date_disk, 
+        baterry=date_baterry, 
+        network=date_network, 
+        user=date_user
+        )
 
 
 if __name__ == '__main__':
