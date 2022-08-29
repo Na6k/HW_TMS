@@ -79,8 +79,18 @@ def info_user():
                     )
     return res_user            
 
+def info_swap():
+    res_swap = {}
+    date_swaps = psutil.swap_memory()
+    res_swap.update(
+                    total=date_swaps.total, 
+                    used=date_swaps.used, 
+                    free=date_swaps.free, 
+                    percent=date_swaps.percent
+                    )
+    return res_swap                
 
-def show(cpu=None, memory=None, disk=None, baterry=None, network=None, user=None):
+def show(cpu=None, memory=None, disk=None, baterry=None, network=None, user=None, swap=None):
     cputime_temp = '| {user_time:^10} | {system_time:^11} | {time_notdo:^10} | {nice_time:^9} |'
     cpustats_temp = '| {sum_switch:^10} | {sum_iter:^11} | {sun_softiter:^12} | {sum_call:^9} |'
     cpupercent_temp = '| {use_cpu1:^5} | {use_cpu2:^5} | {use_cpu3:^5} | {use_cpu4:^5} | {use_cpu5:^5} | {use_cpu6:^5} | {use_cpu7:^5} | {use_cpu8:^5} |'
@@ -89,6 +99,7 @@ def show(cpu=None, memory=None, disk=None, baterry=None, network=None, user=None
     baterry_temp = ' Your baterry charge: {low_percent}%\n Time to critical low(min): {critical_low}\n Charge from sets: {on_chager} '
     network_temp = '| {send_bytes:^10} | {received_bytes:^14} | {error:5} |'
     user_temp = '| {user_name:^10} | {type_cmd:^10} | {star_time:^6.0f} min |'
+    swap_temp = '| {total:^5} | {used:^5} | {free:^5} | {percent:^7} |'
 
     print('\n{:^53}'.format('<<Information about user time>>'))
     print('| {:^10} | {:^11} | {:^10} | {:^9} |'.format('user time', 'system time', 'nothing do', 'nice time'))
@@ -128,6 +139,11 @@ def show(cpu=None, memory=None, disk=None, baterry=None, network=None, user=None
     print('| {:^10} | {:^10} | {:^10} |'.format('user name', 'type cmd', 'start time'))
     print(user_temp.format(**user))
     print(len(user_temp.format(**user)) * '-', end='\n\n')
+   
+    print('{:^20}'.format('<<This information about SWAP memory>>'))
+    print('| {:^5} | {:^5} | {:^5} | {:^7} |'.format('total', 'used', 'free', 'percent'))
+    print(swap_temp.format(**swap))
+    print(len(swap_temp.format(**swap)) * '-')
 
 def main():
     date_cpu = info_cpu()
@@ -136,6 +152,7 @@ def main():
     date_baterry = info_baterry()
     date_network = info_network()
     date_user = info_user()
+    date_swap = info_swap()
     
     show(
         cpu=date_cpu,
@@ -143,7 +160,8 @@ def main():
         disk=date_disk, 
         baterry=date_baterry, 
         network=date_network, 
-        user=date_user
+        user=date_user,
+        swap=date_swap
         )
 
 
