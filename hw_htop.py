@@ -28,6 +28,7 @@ def info_cpu():
                     )
     return res_cpu
 
+
 def info_memmory():
     virtual_mem = {}
     date_mem = psutil.virtual_memory()
@@ -37,6 +38,7 @@ def info_memmory():
                         used_memory=date_mem.used/1024**3
                         )
     return dict(virtual_mem)
+
 
 def info_disk():
     res_disk = {}
@@ -49,6 +51,7 @@ def info_disk():
                     )
     return res_disk
 
+
 def info_baterry():
     res_battery = {}
     date_baterry = psutil.sensors_battery()
@@ -58,6 +61,7 @@ def info_baterry():
                         on_chager=date_baterry.power_plugged
                         )
     return res_battery
+
 
 def info_network():
     res_network = {}
@@ -69,6 +73,7 @@ def info_network():
                         )
     return res_network    
 
+
 def info_user():
     res_user = {}
     date_user = psutil.users()
@@ -78,6 +83,7 @@ def info_user():
                     star_time=date_user[0].started/60**2
                     )
     return res_user            
+
 
 def info_swap():
     res_swap = {}
@@ -89,6 +95,7 @@ def info_swap():
                     percent=date_swaps.percent
                     )
     return res_swap                
+
 
 def show(cpu=None, memory=None, disk=None, baterry=None, network=None, user=None, swap=None):
     cputime_temp = '| {user_time:^10} | {system_time:^11} | {time_notdo:^10} | {nice_time:^9} |'
@@ -133,7 +140,8 @@ def show(cpu=None, memory=None, disk=None, baterry=None, network=None, user=None
     
     print('{:^39}'.format('<<Information network condition>>'))
     print('| {} | {} | {} |'.format('send butes', 'received bytes', 'ERROR'))
-    print(network_temp.format(**network), end='\n\n')
+    print(network_temp.format(**network))
+    print(len(network_temp.format(**network)) * '-', end='\n\n')
 
     print('{:^40}'.format('<<Information about user>>'))
     print('| {:^10} | {:^10} | {:^10} |'.format('user name', 'type cmd', 'start time'))
@@ -143,7 +151,8 @@ def show(cpu=None, memory=None, disk=None, baterry=None, network=None, user=None
     print('{:^20}'.format('<<This information about SWAP memory>>'))
     print('| {:^5} | {:^5} | {:^5} | {:^7} |'.format('total', 'used', 'free', 'percent'))
     print(swap_temp.format(**swap))
-    print(len(swap_temp.format(**swap)) * '-')
+    print(len(swap_temp.format(**swap)) * '-', end='\n\n')
+
 
 def main():
     date_cpu = info_cpu()
