@@ -97,41 +97,113 @@ def info_swap():
     return res_swap                
 
 
-def show(cpu=None, memory=None, disk=None, baterry=None, network=None, user=None, swap=None):
-    cputime_temp = '| {user_time:^10} | {system_time:^11} | {time_notdo:^10} | {nice_time:^9} |'
-    cpustats_temp = '| {sum_switch:^10} | {sum_iter:^11} | {sun_softiter:^12} | {sum_call:^9} |'
-    cpupercent_temp = '| {use_cpu1:^5} | {use_cpu2:^5} | {use_cpu3:^5} | {use_cpu4:^5} | {use_cpu5:^5} | {use_cpu6:^5} | {use_cpu7:^5} | {use_cpu8:^5} |'
-    memory_templage = '| {total_memory:^16.0f} | {available_memory:^16.1f} | {used_memory:^16.1f} |'
-    disk_templage = '| {total_disk:^15.3f} | {used_disk:^15.3f} | {free_disk:^15.3f} | {usedisk_percent:^10} |'
-    baterry_temp = ' Your baterry charge: {low_percent}%\n Time to critical low(min): {critical_low}\n Charge from sets: {on_chager} '
-    network_temp = '| {send_bytes:^10} | {received_bytes:^14} | {error:5} |'
-    user_temp = '| {user_name:^10} | {type_cmd:^10} | {star_time:^6.0f} min |'
+def show(
+        cpu=None, memory=None,
+        disk=None, baterry=None,
+        network=None, user=None, swap=None
+        ):
+
+    cputime_temp = (
+                    '| {user_time:^10} | {system_time:^11} '
+                    '| {time_notdo:^10} | {nice_time:^9} |'
+                    )
+
+    cpustats_temp = (
+                     '| {sum_switch:^10} | {sum_iter:^11} '
+                     '| {sun_softiter:^12} | {sum_call:^9} |'
+                     )
+
+    cpupercent_temp = (
+                       '| {use_cpu1:^5} | {use_cpu2:^5} '
+                       '| {use_cpu3:^5} | {use_cpu4:^5} '
+                       '| {use_cpu5:^5} | {use_cpu6:^5} '
+                       '| {use_cpu7:^5} | {use_cpu8:^5} |'
+                        )
+
+    memory_templage = (
+                        '| {total_memory:^16.0f} '
+                        '| {available_memory:^16.1f} '
+                        '| {used_memory:^16.1f} |'
+                        )
+ 
+    disk_templage = (
+                     '| {total_disk:^15.3f} | {used_disk:^15.3f}'
+                     '| {free_disk:^15.3f} | {usedisk_percent:^10} |'
+                      )
+
+    baterry_temp = (
+                    ' Your baterry charge: {low_percent}%\n'
+                    ' Time to critical low(min): {critical_low}\n'
+                    ' Charge from sets: {on_chager} '
+                    )
+
+    network_temp = (
+                    '| {send_bytes:^10} '
+                    '| {received_bytes:^14} '
+                    '| {error:5} |'
+                    )
+
+    user_temp = (
+                 '| {user_name:^10} '
+                 '| {type_cmd:^10} '
+                 '| {star_time:^6.0f} min |'
+                 )
+
     swap_temp = '| {total:^5} | {used:^5} | {free:^5} | {percent:^7} |'
 
     print('\n{:^53}'.format('<<Information about user time>>'))
-    print('| {:^10} | {:^11} | {:^10} | {:^9} |'.format('user time', 'system time', 'nothing do', 'nice time'))
+    print(
+        '| {:^10} | {:^11} | {:^10} | {:^9} |'.format(
+                                                        'user time',
+                                                        'system time',
+                                                        'nothing do',
+                                                        'nice time'
+                                                        )
+                                                        )
     print(cputime_temp.format(**cpu))
     print(len(cputime_temp.format(**cpu)) * '-', end='\n\n')
     
     print('{:^55}'.format('<<Information about SWITCH>>'))
-    print('| {:^10} | {:^11} | {:^12} | {:^9} |'.format('sum switch', 'sum iter', 'sum softiter', 'sum call'))
+    print(
+        '| {:^10} | {:^11} | {:^12} | {:^9} |'.format(
+                                                        'sum switch',
+                                                        'sum iter',
+                                                        'sum softiter',
+                                                        'sum call'
+                                                        )
+                                                        )
     print(cpustats_temp.format(**cpu)) 
     print(len(cpustats_temp.format(**cpu)) * '-', end='\n\n')
     
     print('{:^65}'.format("Information about utilization your CPU's"))
+
     for i in range(1, len(psutil.cpu_percent(1,True)) + 1):
         print('| CPU{}-%'.format(i), end="")
     print('|')
+
     print(cpupercent_temp.format(**cpu)) 
     print(len(cpupercent_temp.format(**cpu)) * '-', end='\n\n')
     
     print('{:^58}'.format('Information about memory RAM'))
-    print('| {:^16} | {:^16} | {:^16} |'.format('total memory GB', 'available GB', 'used memory GB'))
+    print(
+        '| {:^16} | {:^16} | {:^16} |'.format(
+                                               'total memory GB',
+                                               'available GB',
+                                               'used memory GB'
+                                                )
+                                                )
     print(memory_templage.format(**memory))
     print(len(memory_templage.format(**memory)) * '-', end='\n\n')
 
     print('{:^68}'.format('Information adout hard-disk'))
-    print('| {:^15} | {:^15} | {:^15} | {:^10} |'.format('total disk GB', 'used disk GB', 'free disk GB', 'usedisk(%)'))
+    print(
+        '| {:^15} | {:^15} | {:^15} | {:^10} |'.format(
+                                                        'total disk GB',
+                                                        'used disk GB',
+                                                        'free disk GB',
+                                                        'usedisk(%)'
+                                                        )
+                                                        )       
     print(disk_templage.format(**disk))
     print(len(disk_templage.format(**disk)) * '-',end='\n\n')
 
@@ -139,17 +211,36 @@ def show(cpu=None, memory=None, disk=None, baterry=None, network=None, user=None
     print(baterry_temp.format(**baterry), end='\n\n')
     
     print('{:^39}'.format('<<Information network condition>>'))
-    print('| {} | {} | {} |'.format('send butes', 'received bytes', 'ERROR'))
+    print(
+        '| {} | {} | {} |'.format(
+                                   'send butes',
+                                   'received bytes',
+                                   'ERROR'
+                                    )
+                                    )
     print(network_temp.format(**network))
     print(len(network_temp.format(**network)) * '-', end='\n\n')
 
     print('{:^40}'.format('<<Information about user>>'))
-    print('| {:^10} | {:^10} | {:^10} |'.format('user name', 'type cmd', 'start time'))
+    print(
+        '| {:^10} | {:^10} | {:^10} |'.format(
+                                                'user name',
+                                                'type cmd', 
+                                                'start time'
+                                                )
+                                                )
     print(user_temp.format(**user))
     print(len(user_temp.format(**user)) * '-', end='\n\n')
    
     print('{:^20}'.format('<<This information about SWAP memory>>'))
-    print('| {:^5} | {:^5} | {:^5} | {:^7} |'.format('total', 'used', 'free', 'percent'))
+    print(
+        '| {:^5} | {:^5} | {:^5} | {:^7} |'.format(
+                                                    'total',
+                                                    'used',
+                                                    'free',
+                                                    'percent'
+                                                    )
+                                                    )
     print(swap_temp.format(**swap))
     print(len(swap_temp.format(**swap)) * '-', end='\n\n')
 
