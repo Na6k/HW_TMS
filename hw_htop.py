@@ -1,27 +1,29 @@
 import psutil
 
 
-def info_cpu():   
+# It's script mini version application htop
+
+def info_cpu(): # It's function return information about your CPU 
     res_cpu = {}
-    date_t = psutil.cpu_times()
+    date_t = psutil.cpu_times() # It's modul output information about worktime 
     res_cpu.update(
                    user_time=date_t.user, 
                    system_time=date_t.system,
-                   time_notdo=date_t.idle, 
+                   time_nothin_do=date_t.idle, 
                    nice_time=date_t.nice
                     )    
 
-    date_s = psutil.cpu_stats()
+    date_s = psutil.cpu_stats() # It's modul output statistic CPU
     res_cpu.update(
-                    sum_switch=date_s.ctx_switches,
-                    sum_iter=date_s.interrupts, 
-                    sun_softiter=date_s.soft_interrupts,
-                    sum_call=date_s.syscalls
+                    sum_switch=date_s.ctx_switches,       # number of context switches
+                    sum_iter=date_s.interrupts,           # number of interrupts
+                    sun_softiter=date_s.soft_interrupts,  # number soft interrupts
+                    sum_call=date_s.syscalls              # number system calls
                     )
         
-    date_per = psutil.cpu_percent(1, True)
+    date_per = psutil.cpu_percent(1, True) # It's modul output percent load CPUs
     res_cpu.update(
-                    use_cpu1=date_per[0], use_cpu2=date_per[1],
+                    use_cpu1=date_per[0], use_cpu2=date_per[1],     # The numbers CPU(№)
                     use_cpu3=date_per[2], use_cpu4=date_per[3],
                     use_cpu5=date_per[4], use_cpu6=date_per[5],
                     use_cpu7=date_per[6], use_cpu8=date_per[7]
@@ -29,75 +31,76 @@ def info_cpu():
     return res_cpu
 
 
-def info_memmory():
+def info_memmory(): # It's function return statistic about used system(virtual) memory
     virtual_mem = {}
-    date_mem = psutil.virtual_memory()
+    date_mem = psutil.virtual_memory() 
     virtual_mem.update(
-                        total_memory=date_mem.total/1024**3,
-                        available_memory=date_mem.available/1024**3,
-                        used_memory=date_mem.used/1024**3
+                        total_memory=date_mem.total/1024**3,           # all memory
+                        available_memory=date_mem.available/1024**3,   # free memory
+                        used_memory=date_mem.used/1024**3              # used memory
                         )
     return dict(virtual_mem)
 
 
-def info_disk():
+def info_disk(): # It's function return infomation about disk (HDDR or SSD)
     res_disk = {}
     date_disk = psutil.disk_usage('/')
     res_disk.update(
-                    total_disk=float(date_disk.total/(1024**3)), 
-                    used_disk=float(date_disk.used/(1024**3)), 
-                    free_disk=float(date_disk.free/(1024**3)),
-                    usedisk_percent=date_disk.percent
+                    total_disk=float(date_disk.total/(1024**3)),  # total disk GB
+                    used_disk=float(date_disk.used/(1024**3)),    # used disk GB
+                    free_disk=float(date_disk.free/(1024**3)),    # free disk GB 
+                    usedisk_percent=date_disk.percent             # percent use disk
                     )
     return res_disk
 
 
-def info_baterry():
+def info_baterry(): # It's function return information about baterry and chager
     res_battery = {}
-    date_baterry = psutil.sensors_battery()
+    date_baterry = psutil.sensors_battery() # output baterry statistic
     res_battery.update(
-                        low_percent=date_baterry.percent,
-                        critical_low=int(date_baterry.secsleft/60),
-                        on_chager=date_baterry.power_plugged
+                        low_percent=date_baterry.percent,              # low percent beterry
+                        critical_low=int(date_baterry.secsleft/60),    # time to critical low in minutes
+                        on_chager=date_baterry.power_plugged           # status chager: ON/OFF (True/False)
                         )
     return res_battery
 
 
-def info_network():
+def info_network(): # It's function return information about network statistic
     res_network = {}
-    date_network = psutil.net_io_counters()
+    date_network = psutil.net_io_counters() # methot output network statistic
     res_network.update(
-                        send_bytes = date_network.bytes_sent,
-                        received_bytes = date_network.bytes_recv, 
-                        error = date_network.errin
+                        send_bytes = date_network.bytes_sent,      # send bytes  
+                        received_bytes = date_network.bytes_recv,  # received bytes
+                        error = date_network.errin                 # error network system
                         )
     return res_network    
 
 
-def info_user():
+def info_user(): # Function return information about system user/users
     res_user = {}
-    date_user = psutil.users()
+    date_user = psutil.users() # output user information
     res_user.update(
-                    user_name=date_user[0].name,
-                    type_cmd=date_user[0].terminal,
-                    star_time=date_user[0].started/60**2
+                    user_name=date_user[0].name,         # user name
+                    type_cmd=date_user[0].terminal,      # type cmd using
+                    star_time=date_user[0].started/60**2 # time from start
                     )
     return res_user            
 
 
-def info_swap():
+def info_swap(): # It's function return information about SWAP memory
     res_swap = {}
     date_swaps = psutil.swap_memory()
     res_swap.update(
-                    total=date_swaps.total, 
-                    used=date_swaps.used, 
-                    free=date_swaps.free, 
-                    percent=date_swaps.percent
+                    total=date_swaps.total,    # total swap memory
+                    used=date_swaps.used,      # used swap memory
+                    free=date_swaps.free,      # free wap memory
+                    percent=date_swaps.percent # percent used swap memory
                     )
     return res_swap                
 
 
-def show(
+# It's function outputting all transferred functions
+def show(                                    
         cpu=None, memory=None,
         disk=None, baterry=None,
         network=None, user=None, swap=None
@@ -105,7 +108,7 @@ def show(
 
     cputime_temp = (
                     '| {user_time:^10} | {system_time:^11} '
-                    '| {time_notdo:^10} | {nice_time:^9} |'
+                    '| {time_nothin_do:^10} | {nice_time:^9} |'
                     )
 
     cpustats_temp = (
@@ -127,7 +130,7 @@ def show(
                         )
  
     disk_templage = (
-                     '| {total_disk:^15.3f} | {used_disk:^15.3f}'
+                     '| {total_disk:^15.3f} | {used_disk:^16.3f}'
                      '| {free_disk:^15.3f} | {usedisk_percent:^10} |'
                       )
 
@@ -150,7 +153,9 @@ def show(
                  )
 
     swap_temp = '| {total:^5} | {used:^5} | {free:^5} | {percent:^7} |'
+    
 
+    # print function info_cpu()
     print('\n{:^53}'.format('<<Information about user time>>'))
     print(
         '| {:^10} | {:^11} | {:^10} | {:^9} |'.format(
@@ -184,6 +189,7 @@ def show(
     print(cpupercent_temp.format(**cpu)) 
     print(len(cpupercent_temp.format(**cpu)) * '-', end='\n\n')
     
+    # print function info_memory()
     print('{:^58}'.format('Information about memory RAM'))
     print(
         '| {:^16} | {:^16} | {:^16} |'.format(
@@ -195,6 +201,7 @@ def show(
     print(memory_templage.format(**memory))
     print(len(memory_templage.format(**memory)) * '-', end='\n\n')
 
+    # print function info_disk()
     print('{:^68}'.format('Information adout hard-disk'))
     print(
         '| {:^15} | {:^15} | {:^15} | {:^10} |'.format(
@@ -207,6 +214,7 @@ def show(
     print(disk_templage.format(**disk))
     print(len(disk_templage.format(**disk)) * '-',end='\n\n')
 
+    # print information info_beterry()
     print('<<{:^30}>>'.format('Information about your baterry charge! '))
     print(baterry_temp.format(**baterry), end='\n\n')
     
@@ -220,7 +228,8 @@ def show(
                                     )
     print(network_temp.format(**network))
     print(len(network_temp.format(**network)) * '-', end='\n\n')
-
+    
+    # print information info_user()
     print('{:^40}'.format('<<Information about user>>'))
     print(
         '| {:^10} | {:^10} | {:^10} |'.format(
@@ -232,6 +241,7 @@ def show(
     print(user_temp.format(**user))
     print(len(user_temp.format(**user)) * '-', end='\n\n')
    
+   # print function info_swap()
     print('{:^20}'.format('<<This information about SWAP memory>>'))
     print(
         '| {:^5} | {:^5} | {:^5} | {:^7} |'.format(
@@ -254,6 +264,7 @@ def main():
     date_user = info_user()
     date_swap = info_swap()
     
+    # call the function show() with all methods(functions)
     show(
         cpu=date_cpu,
         memory=date_memory,
@@ -265,5 +276,5 @@ def main():
         )
 
 
-if __name__ == '__main__':
+if __name__ == '__main__': # script start
     main()    
