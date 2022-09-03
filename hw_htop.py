@@ -99,11 +99,21 @@ def info_swap(): # It's function return information about SWAP memory
     return res_swap                
 
 
+def info_process(): # It's function print all worked process in system
+    
+    date_proc = []
+    
+    for proc in psutil.process_iter(['pid', 'name', 'username']):
+        date_proc.append(proc.info)
+    return date_proc
+
+
 # It's function outputting all transferred functions
 def show(                                    
-        cpu=None, memory=None,
-        disk=None, baterry=None,
-        network=None, user=None, swap=None
+        cpu=None, memory=None, 
+        disk=None, baterry=None, 
+        network=None, user=None, 
+        swap=None, process = None
         ):
 
     cputime_temp = (
@@ -154,6 +164,7 @@ def show(
 
     swap_temp = '| {total:^5} | {used:^5} | {free:^5} | {percent:^7} |'
     
+
 
     # print function info_cpu()
     print('\n{:^53}'.format('<<Information about user time>>'))
@@ -254,6 +265,12 @@ def show(
     print(swap_temp.format(**swap))
     print(len(swap_temp.format(**swap)) * '-', end='\n\n')
 
+    print('{:^115}'.format('<< PROCESS WORCED IN YOUR SYSTEM >>'))
+    print('_' * 115)
+    for n in process:
+        output_inf = 'PID {pid:>5} | process name: {name:>50} | user name : {username:>22} |'
+        print(output_inf.format(**n))
+
 
 def main():
     date_cpu = info_cpu()
@@ -263,6 +280,8 @@ def main():
     date_network = info_network()
     date_user = info_user()
     date_swap = info_swap()
+    date_process = info_process()
+    
     
     # call the function show() with all methods(functions)
     show(
@@ -272,9 +291,11 @@ def main():
         baterry=date_baterry, 
         network=date_network, 
         user=date_user,
-        swap=date_swap
+        swap=date_swap,
+        process=date_process
         )
 
 
 if __name__ == '__main__': # script start
     main()    
+    
