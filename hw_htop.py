@@ -3,6 +3,9 @@ from functools import wraps
 import json
 
 
+save_list = []# use it's list in def save(name_file)
+
+
 def save(name_file):
     '''
     This is decorator saved result function in JSON file,
@@ -13,8 +16,9 @@ def save(name_file):
         @wraps(func)
         def save_to_json():
             res = func()
-            with open(f'{name_file}', 'w') as file:
-                json.dump(res, file)
+            save_list.append(res)
+            with open(name_file, 'w') as file:
+                json.dump(save_list, file, indent=4)
             return res
 
         return save_to_json
