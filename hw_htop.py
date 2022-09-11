@@ -1,5 +1,27 @@
 import psutil
+from functools import wraps
+import json
 
+
+def save(name_file):
+    '''
+    This is decorator saved result function in JSON file,
+    you need write name file with .json !!!
+    For example: 'func_result.json'
+    '''
+    def saving(func):
+        @wraps(func)
+        def save_to_json():
+            res = func()
+            date_json = []
+            date_json.append(res)
+            with open(f'{name_file}', 'w') as file:
+                json.dump(date_json, file)
+            return res
+
+        return save_to_json
+
+    return saving            
 
 # It's script mini version application htop
 
