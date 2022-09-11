@@ -13,10 +13,8 @@ def save(name_file):
         @wraps(func)
         def save_to_json():
             res = func()
-            date_json = []
-            date_json.append(res)
             with open(f'{name_file}', 'w') as file:
-                json.dump(date_json, file)
+                json.dump(res, file)
             return res
 
         return save_to_json
