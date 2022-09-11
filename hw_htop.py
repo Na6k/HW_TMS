@@ -3,7 +3,7 @@ from functools import wraps
 import json
 
 
-save_list = []# use it's list in def save(name_file)
+save_list = []# use it's the list in def save(name_file)
 
 
 def save(name_file):
@@ -25,8 +25,8 @@ def save(name_file):
 
     return saving            
 
-# It's script mini version application htop
 
+# It's script mini version application htop
 def info_cpu(): # It's function return information about your CPU 
     res_cpu = {}
     date_t = psutil.cpu_times() # It's modul output information about worktime 
