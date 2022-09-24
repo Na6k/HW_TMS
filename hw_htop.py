@@ -4,7 +4,7 @@ import psutil
 class Cpu:
     
     
-    def info_cpu(self): # It's function return information about your CPU 
+    def get_info(self): # It's function return information about your CPU 
         self.res_cpu = {}
         date_t = psutil.cpu_times() # It's modul output information about worktime 
         self.res_cpu.update(
@@ -110,7 +110,7 @@ class Cpu:
 class VirtualMemory:
 
 
-    def info_memmory(self): # It's function return statistic about used system(virtual) memory
+    def get_info(self): # It's function return statistic about used system(virtual) memory
         virtual_mem = {}
         date_mem = psutil.virtual_memory() 
         virtual_mem.update(
@@ -149,7 +149,7 @@ class VirtualMemory:
 class Disk:
 
 
-    def info_disk(self): # It's function return infomation about disk (HDDR or SSD)
+    def get_info(self): # It's function return infomation about disk (HDDR or SSD)
         self.res_disk = {}
         date_disk = psutil.disk_usage('/')
         self.res_disk.update(
@@ -186,7 +186,7 @@ class Disk:
 class InfoBaterry():
 
 
-    def info_baterry(self): # It's function return information about baterry and chager
+    def get_info(self): # It's function return information about baterry and chager
         self.res_battery = {}
         date_baterry = psutil.sensors_battery() # output baterry statistic
         self.res_battery.update(
@@ -213,7 +213,7 @@ class InfoBaterry():
 class NetworkInfo():
 
 
-    def info_network(self): # It's function return information about network statistic
+    def get_info(self): # It's function return information about network statistic
         self.res_network = {}
         date_network = psutil.net_io_counters() # methot output network statistic
         self.res_network.update(
@@ -249,7 +249,7 @@ class NetworkInfo():
 class UserInfo:
 
 
-    def info_user(self): # Function return information about system user/users
+    def get_info(self): # Function return information about system user/users
         self.res_user = {}
         date_user = psutil.users() # output user information
         self.res_user.update(
@@ -285,7 +285,7 @@ class UserInfo:
 class SwapInfo:
 
 
-    def info_swap(self): # It's function return information about SWAP memory
+    def get_info(self): # It's function return information about SWAP memory
         self.res_swap = {}
         date_swaps = psutil.swap_memory()
         self.res_swap.update(
@@ -318,36 +318,36 @@ class SwapInfo:
 
 def main():
     cpu= Cpu()
-    cpu.info_cpu()
+    cpu.get_info()
     print(cpu)
 
 
     memory = VirtualMemory()
-    memory.info_memmory()
+    memory.get_info()
     print(memory)
 
 
     disk = Disk()
-    disk.info_disk()
+    disk.get_info()
     print(disk)
 
     baterry = InfoBaterry()
-    baterry.info_baterry()
+    baterry.get_info()
     print(baterry)
     
 
     network = NetworkInfo()
-    network.info_network()
+    network.get_info()
     print(network)
 
     
     user = UserInfo()
-    user.info_user()
+    user.get_info()
     print(user)
 
 
     swap = SwapInfo()
-    swap.info_swap()
+    swap.get_info()
     print(swap)
 
 
