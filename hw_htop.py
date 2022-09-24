@@ -1,7 +1,20 @@
 import psutil
+from abc import ABC, abstractmethod
 
 
-class Cpu:
+
+class GetInfo(ABC):
+    
+
+    @abstractmethod
+    def get_info(self):
+        '''
+        This is abstractmethod.
+        We need use it in classes, which have 'get_info()' method.
+        '''
+
+
+class Cpu(GetInfo):
     
     
     def get_info(self): # It's function return information about your CPU 
@@ -106,7 +119,7 @@ class Cpu:
                 )
         
 
-class VirtualMemory:
+class VirtualMemory(GetInfo):
 
 
     def get_info(self): # It's function return statistic about used system(virtual) memory
@@ -144,7 +157,7 @@ class VirtualMemory:
                 f'{str_mem5}') 
 
 
-class Disk:
+class Disk(GetInfo):
 
 
     def get_info(self): # It's function return infomation about disk (HDDR or SSD)
@@ -180,7 +193,7 @@ class Disk:
                 f'{str4_disk}\n')              
 
 
-class InfoBaterry():
+class InfoBaterry(GetInfo):
 
 
     def get_info(self): # It's function return information about baterry and chager
@@ -206,7 +219,7 @@ class InfoBaterry():
                 )
 
 
-class NetworkInfo():
+class NetworkInfo(GetInfo):
 
 
     def get_info(self): # It's function return information about network statistic
@@ -241,7 +254,7 @@ class NetworkInfo():
                 f'{str4_network}')
 
 
-class UserInfo:
+class UserInfo(GetInfo):
 
 
     def get_info(self): # Function return information about system user/users
@@ -276,7 +289,7 @@ class UserInfo:
                 f'{str4_user}\n')
 
 
-class SwapInfo:
+class SwapInfo(GetInfo):
 
 
     def get_info(self): # It's function return information about SWAP memory
@@ -346,4 +359,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
