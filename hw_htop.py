@@ -29,7 +29,6 @@ class Cpu:
                         use_cpu5=date_per[4], use_cpu6=date_per[5],
                         use_cpu7=date_per[6], use_cpu8=date_per[7]
                         )
-        return self.res_cpu
 
 
     def __str__(self):
@@ -119,7 +118,6 @@ class VirtualMemory:
                             used_memory=date_mem.used/1024**3              # used memory
                             )
         self.res_memory = dict(virtual_mem)                    
-        return self.res_memory
 
 
     def __str__(self):
@@ -158,7 +156,6 @@ class Disk:
                         free_disk=float(date_disk.free/(1024**3)),    # free disk GB 
                         usedisk_percent=date_disk.percent             # percent use disk
                         )
-        return self.res_disk
 
 
     def __str__(self):
@@ -194,7 +191,6 @@ class InfoBaterry():
                             critical_low=int(date_baterry.secsleft/60),    # time to critical low in minutes
                             on_chager=date_baterry.power_plugged           # status chager: ON/OFF (True/False)
                             )
-        return self.res_battery
 
 
     def __str__(self):
@@ -220,8 +216,7 @@ class NetworkInfo():
                             send_bytes = date_network.bytes_sent,      # send bytes  
                             received_bytes = date_network.bytes_recv,  # received bytes
                             error = date_network.errin                 # error network system
-                            )
-        return self.res_network  
+                            )  
 
 
     def __str__(self):
@@ -256,8 +251,7 @@ class UserInfo:
                         user_name=date_user[0].name,         # user name
                         type_cmd=date_user[0].terminal,      # type cmd using
                         star_time=date_user[0].started/60**2 # time from start
-                        )
-        return self.res_user   
+                        )   
     
 
     def __str__(self):
@@ -293,8 +287,7 @@ class SwapInfo:
                         used=date_swaps.used,      # used swap memory
                         free=date_swaps.free,      # free wap memory
                         percent=date_swaps.percent # percent used swap memory
-                        )
-        return self.res_swap    
+                        )    
     
 
     def __str__(self):
@@ -353,3 +346,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
